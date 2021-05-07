@@ -6,6 +6,7 @@
 #ifndef _KB_PROBLEMS_PROBLEM_H_
 #define _KB_PROBLEMS_PROBLEM_H_
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "kepler_benchmarks/helpers.h"
@@ -199,6 +200,54 @@ kb_summary kb_problem_run_pre(kb_problem* problem,
   }
 
   return kb_summarize(problem, end - start);
+}
+
+/********************************************************************************
+ * @brief Run a benchmark problem over a grid of eccentricities
+ *
+ * This function will call out to `kb_problem_run` or `kb_problem_run_pre`
+ * (depending on the `pre` flag) to actually run the benchmark at a particular
+ * eccentricity. The results will be printed to stdout.
+ *
+ * @param pre          A flag indicating if the pre-computation version of the
+ *                     solver should be used
+ * @param size         The number of anomalies to run per eccentricity
+ * @param e_step       The step size in eccentricity to use when construcint the
+ *                     grid
+ * @param setup        The problem setup function
+ * @param solver       The function for solving Kepler's equation
+ * @param solver_alloc The (possibly `NULL`) allocation/setup function for the
+ *                     solver
+ * @param solver_free  The (possibly `NULL`) cleanup function for the solver
+ *******************************************************************************/
+void kb_problem_run_ecc_grid(const int pre, const long size, const double e_step,
+                             void (*setup)(kb_problem*),
+                             double (*solver)(const double, const double, const void* const,
+                                              double*, double*),
+                             void* (*solver_alloc)(const double), void (*solver_free)(void*)) {
+  printf("size,e,runtime,error_max,error_mean,sin_error_max,sin_error_mean,");
+  printf("cos_error_max,cos_error_mean\n");
+  kb_summary summary;
+  kb_problem* problem = kb_problem_alloc(size);
+  for (double e = 0.; e < 1; e += e_step) {
+    problem->e = e;
+    setup(problem);
+    if (pre) {
+      summary = kb_problem_run(problem, solver, solver_alloc, solver_free);
+    } else {
+      summary = kb_problem_run_pre(problem, solver, solver_alloc, solver_free);
+    }
+    printf("%ld,", summary.size);
+    printf("%.10e,", summary.e);
+    printf("%.6e,", summary.runtime);
+    printf("%.6e,", summary.error_max);
+    printf("%.6e,", summary.error_mean);
+    printf("%.6e,", summary.sin_error_max);
+    printf("%.6e,", summary.sin_error_mean);
+    printf("%.6e,", summary.cos_error_max);
+    printf("%.6e\n", summary.cos_error_mean);
+  }
+  kb_problem_free(problem);
 }
 
 #endif

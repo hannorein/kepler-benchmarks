@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 
+if (CMAKE_BINARY_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+  message(FATAL_ERROR "Building in-source is not supported; make a 'build' directory and run cmake there")
+endif()
+
 project(KeplerBenchmarks VERSION 0.1.0 LANGUAGES C)
-include(GNUInstallDirs)
+# include(GNUInstallDirs)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Default to Release build type
@@ -32,9 +36,17 @@ endif()
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 # add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/benchmarks)
 
-# Tests
-option(Build_Tests "Build tests" ON)
-if(Build_Tests)
+option(BUILD_TESTS "Build tests" ON)
+if(BUILD_TESTS)
   enable_testing()
   add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tests)
+else()
+  message(STATUS "Skipping tests")
+endif()
+
+option(BUILD_BENCHMARKS "Build benchmarks" ON)
+if(BUILD_BENCHMARKS)
+  add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/benchmarks)
+else()
+  message(STATUS "Skipping benchmarks")
 endif()
