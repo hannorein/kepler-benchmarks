@@ -1,7 +1,7 @@
-#ifndef _KEPLER_BENCHMARKS_TESTS_SIMPLE_H_
-#define _KEPLER_BENCHMARKS_TESTS_SIMPLE_H_
+#ifndef _KB_PROBLEMS_BASIC_H_
+#define _KB_PROBLEMS_BASIC_H_
 
-#include "test.h"
+#include "kepler_benchmarks/problems/utils.h"
 
 void kb_test_setup_simple(kb_test *test, double e) {
   test->fixed_ecc = 1;

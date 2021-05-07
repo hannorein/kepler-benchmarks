@@ -1,9 +1,9 @@
 #include <stdio.h>
 
 #include "kepler_benchmarks/solvers/simple.h"
-#include "kepler_benchmarks/tests/simple.h"
+#include "kepler_benchmarks/problems/basic.h"
 
-int main(int argc, char* argv[]) {
+int main() {
   kb_test* test = kb_test_alloc(100000);
 
   printf("ecc,runtime,size,error_max,error_mean\n");

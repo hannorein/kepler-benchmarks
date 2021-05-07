@@ -1,5 +1,5 @@
-#ifndef _KEPLER_BENCHMARKS_TESTS_TEST_H_
-#define _KEPLER_BENCHMARKS_TESTS_TEST_H_
+#ifndef _KB_PROBLEMS_UTILS_H_
+#define _KB_PROBLEMS_UTILS_H_
 
 #include <math.h>
 #include <stdlib.h>
@@ -33,7 +33,7 @@ double get_time() {
 
 #endif
 
-typedef struct kb_test_result {
+typedef struct kb_benchmark_result {
   double runtime;
   double error_max;
   double error_mean;
@@ -43,7 +43,7 @@ typedef struct kb_test_result {
   double cos_error_mean;
 } kb_test_result;
 
-typedef struct kb_test {
+typedef struct kb_benchmark_problem {
   int fixed_ecc;
   long size;
   double* e;
