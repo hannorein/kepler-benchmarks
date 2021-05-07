@@ -17,7 +17,7 @@ double kb_solver_simple(const double M, const double e, const void *precalc, dou
 // Precalculate values
 // Pointer can point to array, struct, etc
 void *kb_solver_simple_alloc(const double e) {
-  (void)e;
+  (void)e;  // Squash the unused variable warning
   double *p = (double *)malloc(sizeof(double));
   *p = sqrt(1.);
   return p;

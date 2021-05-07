@@ -1,15 +1,24 @@
+/**
+ * @file  kepler_benchmarks/problems/basic.h
+ * @brief The simplest benchmark problem with a uniform grid test points
+ */
+
 #ifndef _KB_PROBLEMS_BASIC_H_
 #define _KB_PROBLEMS_BASIC_H_
 
-#include "kepler_benchmarks/problems/utils.h"
+#include "kepler_benchmarks/problems/problem.h"
 
-void kb_test_setup_simple(kb_test *test, double e) {
-  test->fixed_ecc = 1;
-  for (long n = 0; n < test->size; ++n) {
-    double E = 2 * M_PI * n / (test->size);
-    test->e[n] = e;
-    test->M[n] = E - e * sin(E);
-    test->E_expect[n] = E;
+/******************************************************************************
+ * @brief Setup a simple benchmark problem
+ *
+ * This problem is a uniform grid in eccentric anomaly in the range [0, 2*pi).
+ *****************************************************************************/
+void kb_problem_setup_basic(kb_problem *problem) {
+  double e = problem->e;
+  for (long n = 0; n < problem->size; ++n) {
+    double E = 2 * M_PI * n / (problem->size);
+    problem->M[n] = E - e * sin(E);
+    problem->E_expect[n] = E;
   }
 }
 
