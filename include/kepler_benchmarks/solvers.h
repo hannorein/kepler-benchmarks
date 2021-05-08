@@ -2,6 +2,7 @@
 #define _KB_SOLVERS_H_
 
 #include "kepler_benchmarks/solvers/baseline.h"
+#include "kepler_benchmarks/solvers/brandt.h"
 #include "kepler_benchmarks/solvers/iterative.h"
 
 #endif

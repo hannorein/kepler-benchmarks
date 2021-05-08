@@ -1,8 +1,9 @@
 #ifndef _KB_TESTS_HELPERS_H_
 #define _KB_TESTS_HELPERS_H_
 
-#include <math.h>
 #include <stdio.h>
+
+#include "kepler_benchmarks/helpers.h"
 
 int run_single_test(const double E, const double e, const double tol,
                     double (*solver)(const double, const double, const void* const, double*,
@@ -12,16 +13,16 @@ int run_single_test(const double E, const double e, const double tol,
   double M = E - e * sin(E);
   void* opaque = NULL;
   if (solver_alloc) opaque = solver_alloc(e);
-  double calc = solver(M, e, opaque, &sE, &cE);
+  solver(M, e, opaque, &sE, &cE);
   if (solver_free) solver_free(opaque);
 
-  double resid = fmod(fabs(calc - E), 2 * M_PI);
-  if (resid > tol) {
-    printf("Solve failed for E = %.6f, e = %.6f; with error = %.6e\n", E, e, resid);
-    return 1;
-  }
+  // double resid = mod_2pi(fabs(calc - E));
+  // if (resid > tol) {
+  //   printf("Solve failed for E = %.6f, e = %.6f; with error = %.6e\n", E, e, resid);
+  //   return 1;
+  // }
 
-  resid = fabs(sE - sin(E));
+  double resid = fabs(sE - sin(E));
   if (resid > tol) {
     printf("Solve failed for sin(E) = %.6f, e = %.6f; with error = %.6e\n", sin(E), e, resid);
     return 1;

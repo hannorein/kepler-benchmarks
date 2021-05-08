@@ -7,6 +7,7 @@
 #define _KB_SOLVERS_ITERATIVE_H_
 
 #include "kepler_benchmarks/helpers.h"
+#include "kepler_benchmarks/solvers/starters.h"
 
 #ifndef KB_ITER_TOL
 #define KB_ITER_TOL (1.234e-12)
@@ -15,10 +16,6 @@
 #ifndef KB_MAX_ITER
 #define KB_MAX_ITER 30
 #endif
-
-inline double kb_simple_starter(const double M, const double e) {
-  return M + sign(sin(M)) * 0.85 * e;
-}
 
 /********************************************************************************
  * @brief A first order iterative solver
@@ -31,7 +28,7 @@ double kb_solver_iter_first(const double M, const double e, const void *opaque, 
                             double *cosE) {
   (void)opaque;  // unused
 
-  double E = kb_simple_starter(M, e);
+  double E = kb_starter_simple(M, e);
   double sE = sin(E), cE = cos(E);
   double fe, fs;
 
@@ -58,7 +55,7 @@ double kb_solver_iter_third(const double M, const double e, const void *opaque, 
                             double *cosE) {
   (void)opaque;  // unused
 
-  double E = kb_simple_starter(M, e);
+  double E = kb_starter_simple(M, e);
   double sE = sin(E), cE = cos(E);
   double fi, fip, fipp, fippp, d1;
 
