@@ -23,9 +23,9 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          cmake .. -DBUILD_BENCHMARKS=OFF
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_BENCHMARKS=OFF
           cmake --build .
       - name: Run tests
         run: |
           cd build
-          ctest --output-on-failure
+          ctest -C Debug --output-on-failure
