@@ -1,5 +1,5 @@
-#ifndef _KB_HELPERS_H_
-#define _KB_HELPERS_H_
+#ifndef _KB_MATH_H_
+#define _KB_MATH_H_
 
 #include <math.h>
 
@@ -30,7 +30,7 @@ double mod_2pi(const double x) {
   const double twopi = 2 * M_PI;
   if (x < twopi && x >= 0) return x;
 
-  if (x > twopi) {
+  if (x >= twopi) {
     double M = x - twopi;
     if (M > twopi)
       return fmod(M, twopi);

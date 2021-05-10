@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include "kepler_benchmarks/helpers.h"
+#include "kepler_benchmarks/kb_math.h"
 
 inline double kb_starter_simple(const double M, const double e) {
   return M + sign(sin(M)) * 0.85 * e;

@@ -6,7 +6,7 @@
 #ifndef _KB_SOLVERS_ITERATIVE_H_
 #define _KB_SOLVERS_ITERATIVE_H_
 
-#include "kepler_benchmarks/helpers.h"
+#include "kepler_benchmarks/kb_math.h"
 #include "kepler_benchmarks/solvers/starters.h"
 
 #ifndef KB_ITER_TOL

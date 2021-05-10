@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-#include "kepler_benchmarks/helpers.h"
+#include "kepler_benchmarks/kb_math.h"
 
 double kb_refine_nijenhuis(const double M, const double e, const double E, double* sinE,
                            double* cosE) {

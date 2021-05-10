@@ -4,6 +4,9 @@
 #include "kepler_benchmarks/solvers/refiners.h"
 #include "kepler_benchmarks/solvers/starters.h"
 
+#ifndef KB_BRANDT_TOL
+#define KB_BRANDT_TOL (1.e-12)
+#endif
 typedef struct kb_solver_brandt_info {
   double e;
   double bounds[13];
@@ -13,6 +16,7 @@ typedef struct kb_solver_brandt_info {
 void* kb_solver_brandt_alloc(const double e) {
   kb_solver_brandt_info* opaque = (kb_solver_brandt_info*)malloc(sizeof(kb_solver_brandt_info));
   opaque->e = e;
+  if (e < KB_BRANDT_TOL) return (void*)opaque;
 
   const double pi = M_PI;
   const double pi_d_12 = M_PI / 12;
@@ -146,15 +150,8 @@ double kb_solver_brandt_starter(const double M, const double e) {
   double EA_tab[9];
 
   int k;
-  double MA, EA, x, y;
+  double MA = M, EA, x, y;
   double B0, B1, B2, dx, idx;
-  int MAsign = 1;
-
-  MA = M;
-  if (MA > M_PI) {
-    MAsign = -1;
-    MA = 2 * M_PI - MA;
-  }
 
   // Series expansion
   if (2 * MA + 1 - e < 0.2) {
@@ -240,8 +237,15 @@ double kb_solver_brandt(const double M, const double e, const void* opaque, doub
                         double* cosE) {
   (void)(opaque);
 
+  if (e < KB_BRANDT_TOL) {
+    *sinE = sin(M);
+    *cosE = cos(M);
+    return M;
+  }
+
   int MAsign = 1;
   double MA = mod_2pi(M);
+  printf("M = %f; MA = %f\n", M, MA);
   if (MA > M_PI) {
     MAsign = -1;
     MA = 2 * M_PI - MA;
@@ -255,6 +259,12 @@ double kb_solver_brandt(const double M, const double e, const void* opaque, doub
 
 double kb_solver_brandt_fixed_e(const double M, const double e, const void* opaque, double* sinE,
                                 double* cosE) {
+  if (e < KB_BRANDT_TOL) {
+    *sinE = sin(M);
+    *cosE = cos(M);
+    return M;
+  }
+
   int MAsign = 1;
   double MA = mod_2pi(M);
   if (MA > M_PI) {

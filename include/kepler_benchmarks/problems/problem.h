@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "kepler_benchmarks/helpers.h"
+#include "kepler_benchmarks/kb_math.h"
 
 /********************************************************************************
  * @fn get_time
@@ -87,7 +87,8 @@ kb_summary kb_summarize(const kb_problem* problem, double runtime) {
   summary.e = problem->e;
   summary.runtime = runtime;
   for (long n = 0; n < problem->size; ++n) {
-    double error = fabs(problem->E_expect[n] - problem->E_calc[n]);
+    double error = problem->E_expect[n] - problem->E_calc[n];
+    error = fabs(atan2(sin(error), cos(error)));  // Handle wrapping properly
     double sin_error = fabs(sin(problem->E_expect[n]) - problem->sinE_calc[n]);
     double cos_error = fabs(cos(problem->E_expect[n]) - problem->cosE_calc[n]);
     summary.error_max = max(summary.error_max, error);
