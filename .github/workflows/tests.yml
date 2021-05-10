@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          cmake ..
+          cmake .. -DBUILD_BENCHMARKS=OFF
           cmake --build .
       - name: Run tests
         run: |
