@@ -15,17 +15,15 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      # - uses: ilammy/msvc-dev-cmd@v1
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Build
         run: |
           mkdir -p build
           cd build
           cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_BENCHMARKS=OFF
           cmake --build .
-      - name: Run tests
+      - name: Tests
         run: |
           cd build
           ctest -C Debug --output-on-failure
