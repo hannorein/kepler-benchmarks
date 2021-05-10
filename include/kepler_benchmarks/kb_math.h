@@ -1,6 +1,7 @@
 #ifndef _KB_MATH_H_
 #define _KB_MATH_H_
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 #define max(a, b) (((a) > (b)) ? (a) : (b))
